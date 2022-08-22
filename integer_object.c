@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// An example of OOP in C using a struct with function pointers to simulate methods
+
 typedef struct Integer {
     int number;
     void (*increment)(struct Integer *self);
