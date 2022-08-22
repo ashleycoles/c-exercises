@@ -1,39 +1,38 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Integer_Struct* Integer;
-
-struct Integer_Struct{
+typedef struct Integer {
     int number;
-    void (*increment)(const void* self);
-    void (*decrement)(const void* self);
-    void (*add)(const void* self, int num);
-    void (*minus)(const void* self, int num);
-    int (*get)(const void* self);
-};
+    void (*increment)(struct Integer *self);
+    void (*decrement)(struct Integer *self);
+    void (*add)(struct Integer *self, int num);
+    void (*minus)(struct Integer *self, int num);
+    int (*get)(struct Integer *self);
+} Integer;
 
-void Integer_increment(const void* self) {
-    ((Integer)self)->number++;
+void Integer_increment(Integer *self) {
+    self->number++;
 }
 
-void Integer_decrement(const void* self) {
-    ((Integer)self)->number--;
+void Integer_decrement(Integer *self) {
+    self->number--;
 }
 
-void Integer_add(const void* self, int num) {
-    ((Integer)self)->number += num;
+void Integer_add(Integer *self, int num) {
+    self->number += num;
 }
 
-void Integer_minus(const void* self, int num) {
-    ((Integer)self)->number -= num;
+void Integer_minus(Integer *self, int num) {
+    self->number -= num;
 }
 
-int Integer_get(const void* self) {
-    return ((Integer)self)->number;
+int Integer_get(Integer *self) {
+    return self->number;
 }
 
-Integer Integer_construct(int number) {
-    Integer self = (Integer)malloc(sizeof(struct Integer_Struct));
+
+Integer *Integer_construct(int number) {
+    Integer *self = malloc(sizeof(Integer));
 
     self->number = number;
     self->increment = &Integer_increment;
@@ -47,7 +46,7 @@ Integer Integer_construct(int number) {
 
 
 int main(void) {
-    Integer i = Integer_construct(1);
+    Integer *i = Integer_construct(1);
 
     i->increment(i);
     i->add(i, 30);
@@ -55,5 +54,4 @@ int main(void) {
     i->decrement(i);
 
     printf("%i\n", i->get(i));
-    free(i);
 }
